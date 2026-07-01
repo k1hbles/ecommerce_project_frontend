@@ -1,0 +1,11 @@
+:root {
+    --rausch: #ff385c;
+    --muted: #717171;
+    --line: #ebebeb;
+}
+
+body {
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+    color: #222222;
+    margin: 0;
+}

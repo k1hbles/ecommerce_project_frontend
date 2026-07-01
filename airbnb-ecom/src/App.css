@@ -1,0 +1,265 @@
+.text-rausch {
+    color: var(--rausch) !important;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+/* coral gradient button */
+.btn-rausch {
+    background: linear-gradient(to right, #e61e4d, #d70466);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+}
+.btn-rausch:hover,
+.btn-rausch:focus {
+    color: #fff;
+    filter: brightness(1.06);
+}
+
+/* search pill */
+.searchbar {
+    display: flex;
+    align-items: stretch;
+    max-width: 820px;
+    background: #fff;
+    border: 1px solid #dddddd;
+    border-radius: 999px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    padding: 6px 6px 6px 10px;
+    transition: box-shadow 0.2s ease;
+}
+.searchbar:focus-within {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+.searchbar-field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8px 18px;
+    border-right: 1px solid var(--line);
+    min-width: 0;
+}
+.searchbar-field.grow {
+    flex: 1;
+}
+.searchbar-field label {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 1px;
+}
+.searchbar-field input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 15px;
+    color: #222;
+    width: 100%;
+    padding: 2px 0;
+}
+.searchbar-field input::placeholder {
+    color: var(--muted);
+}
+.searchbar-btn {
+    flex: none;
+    width: 50px;
+    height: 50px;
+    align-self: center;
+    border: none;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 17px;
+    margin-left: 8px;
+    background: linear-gradient(to right, #e61e4d, #d70466);
+    display: grid;
+    place-items: center;
+    transition: transform 0.12s ease, filter 0.12s ease;
+}
+.searchbar-btn:hover {
+    transform: scale(1.05);
+    filter: brightness(1.05);
+}
+
+/* category strip */
+.category-strip {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 20px 0 4px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 20px;
+    scrollbar-width: none;
+}
+.category-strip::-webkit-scrollbar {
+    display: none;
+}
+.category-item {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 6px 16px 12px;
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    opacity: 0.7;
+    white-space: nowrap;
+    transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.category-item:hover {
+    opacity: 1;
+    color: #222;
+}
+.category-item.active {
+    opacity: 1;
+    color: #222;
+    border-bottom-color: #222;
+}
+.category-icon {
+    font-size: 24px;
+    line-height: 1;
+}
+
+/* listing cards */
+.listing-card {
+    position: relative;
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.listing-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.12);
+}
+.listing-card .card-img-top {
+    aspect-ratio: 20 / 19;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.listing-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+.card-heart {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+}
+
+.price-strong {
+    font-weight: 800;
+}
+
+/* helper classes so the JSX uses class names instead of inline styles.
+   every image gets a fixed box + object-fit: cover so they never stretch. */
+.form-narrow { max-width: 480px; }
+.cart-thumb { width: 110px; height: 80px; object-fit: cover; }
+.order-thumb { width: 120px; height: 90px; object-fit: cover; }
+
+/* ---------- listing detail page ---------- */
+.detail-wrap {
+    max-width: 1120px;
+}
+/* fixed aspect ratio + cover = the hero photo crops instead of stretching */
+.detail-img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    max-height: 460px;
+    object-fit: cover;
+}
+.booking-card {
+    position: sticky;
+    top: 90px;
+    border: 1px solid #dddddd;
+    border-radius: 16px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+    background: #fff;
+}
+.amenity-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 24px;
+}
+.amenity-item {
+    display: flex;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid #f3f3f3;
+    font-size: 15px;
+}
+.amenity-item::before {
+    content: "✓";
+    color: var(--rausch);
+    font-weight: 800;
+    margin-right: 12px;
+}
+.review-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+}
+.review-avatar {
+    flex: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff385c, #d70466);
+    color: #fff;
+    font-weight: 700;
+    display: grid;
+    place-items: center;
+}
+
+/* ---------- shared polish (applies to every page, no JSX needed) ---------- */
+/* coral focus ring on all inputs: login, register, booking, search */
+.form-control:focus,
+.form-select:focus {
+    border-color: #ffaebd;
+    box-shadow: 0 0 0 0.2rem rgba(255, 56, 92, 0.15);
+}
+/* softer rounded cards everywhere (orders, etc.) */
+.card {
+    border-radius: 14px;
+}
+
+@media (max-width: 575px) {
+    .amenity-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* flash message floats top-right */
+.flash-fixed {
+    position: fixed;
+    top: 80px;
+    right: 16px;
+    z-index: 1050;
+    max-width: 360px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 700px) {
+    .searchbar {
+        flex-wrap: wrap;
+        border-radius: 20px;
+    }
+    .searchbar-field {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+        flex: 1 1 100%;
+    }
+}
