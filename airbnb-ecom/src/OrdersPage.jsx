@@ -10,7 +10,7 @@ export default function OrdersPage() {
         const fetchOrders = async () => {
             const jwt = getJwt();
             const response = await axios.get(import.meta.env.VITE_API_URL + "/api/orders", {
-                headers: { Authorization: "Beaer " + jwt}
+                headers: { Authorization: "Bearer " + jwt}
             });
 
             setOrders(response.data.orders);
@@ -21,7 +21,7 @@ export default function OrdersPage() {
     // payment status with bootstrap
     const statusClass = (status) => {
         if (status === "paid") return "text-bg-success";
-        if (status = "pending") return "text-bg-warning";
+        if (status === "pending") return "text-bg-warning";
         return "text-bg-danger";
     };
 

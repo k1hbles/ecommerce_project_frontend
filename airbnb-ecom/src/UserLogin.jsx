@@ -52,7 +52,7 @@ export default function UserLogin() {
                     </Form>
                 )}
             </Formik>
-            <p className="text-secondary small mt-3">Demo: test@example.com / password123</p>
+            <p className="text-secondary small mt-3">Demo: tester@example.com / password123</p>
         </div>
     )
 }

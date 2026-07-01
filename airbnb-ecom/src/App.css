@@ -263,3 +263,7 @@
         flex: 1 1 100%;
     }
 }
+
+.navbar .nav-link.active {
+      font-weight: 700;
+  } 
