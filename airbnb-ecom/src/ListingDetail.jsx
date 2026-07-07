@@ -13,6 +13,11 @@ const validationSchema = Yup.object({
     guests: Yup.number().min(1, "At least 1 guest").required("Required")
 });
 
+const reviewSchema = Yup.object({
+    rating: Yup.number().required("Required"),
+    comment: Yup.string().required("Please write a comment")
+});
+
 // the :id comes from the route -> wouter passes it as props.params
 export default function ListingDetail(props) {
     const id = props.params.id;
@@ -22,11 +27,13 @@ export default function ListingDetail(props) {
     const { addToCart } = useCart();
     const { showMessage } = useFlashMessage();
 
+    // fetch the listing (also called again after posting a review)
+    const fetchListing = async () => {
+        const response = await axios.get(import.meta.env.VITE_API_URL + "/api/listings/" + id);
+        setListing(response.data.listing);
+    };
+
     useEffect(() => {
-        const fetchListing = async () => {
-            const response = await axios.get(import.meta.env.VITE_API_URL + "/api/listings/" + id);
-            setListing(response.data.listing);
-        };
         fetchListing();
     }, [id]);
 
@@ -35,6 +42,7 @@ export default function ListingDetail(props) {
     }
 
     const initialValues = { checkIn: "", checkOut: "", guests: 1 };
+    const reviewInitialValues = { rating: 5, comment: "" };
 
     const handleSubmit = async (values, formikHelper) => {
         try {
@@ -42,6 +50,25 @@ export default function ListingDetail(props) {
             showMessage("Added to your cart", "success");
         } catch (e) {
             const msg = e.response && e.response.data ? e.response.data.error : "Could not add to cart";
+            showMessage(msg, "danger");
+        }
+        formikHelper.setSubmitting(false);
+    };
+
+    // POST a review, then re-fetch the listing so the new review shows
+    const handleReview = async (values, formikHelper) => {
+        try {
+            const jwt = getJwt();
+            await axios.post(
+                import.meta.env.VITE_API_URL + "/api/listings/" + id + "/reviews",
+                { rating: values.rating, comment: values.comment },
+                { headers: { Authorization: "Bearer " + jwt } }
+            );
+            showMessage("Thanks for your review", "success");
+            formikHelper.resetForm();
+            fetchListing();
+        } catch (e) {
+            const msg = e.response && e.response.data ? e.response.data.error : "Could not post review";
             showMessage(msg, "danger");
         }
         formikHelper.setSubmitting(false);
@@ -77,11 +104,44 @@ export default function ListingDetail(props) {
                         <div key={r.reviewId} className="review-item">
                             <div className="review-avatar">{r.fullName.slice(0, 1)}</div>
                             <div>
-                                <div className="fw-semibold">{r.fullName}</div>
-                                <div className="text-secondary small">Stayed here</div>
+                                <div className="fw-semibold">
+                                    {r.fullName} <span className="text-warning">★ {r.rating}</span>
+                                </div>
+                                <div className="text-secondary small">{r.comment}</div>
                             </div>
                         </div>
                     ))}
+
+                    {/* review form (only when logged in) */}
+                    {getJwt() && (
+                        <div className="mt-4">
+                            <h6 className="fw-bold">Leave a review</h6>
+                            <Formik initialValues={reviewInitialValues} validationSchema={reviewSchema} onSubmit={handleReview}>
+                                {(formik) => (
+                                    <Form>
+                                        <div className="mb-2">
+                                            <label className="form-label">Rating</label>
+                                            <Field as="select" name="rating" className="form-select">
+                                                <option value="5">5 - Excellent</option>
+                                                <option value="4">4 - Good</option>
+                                                <option value="3">3 - Okay</option>
+                                                <option value="2">2 - Poor</option>
+                                                <option value="1">1 - Bad</option>
+                                            </Field>
+                                        </div>
+                                        <div className="mb-2">
+                                            <label className="form-label">Comment</label>
+                                            <Field as="textarea" name="comment" rows="2" className="form-control" />
+                                            <ErrorMessage name="comment" component="div" className="text-danger small" />
+                                        </div>
+                                        <button type="submit" className="btn btn-rausch btn-sm" disabled={formik.isSubmitting}>
+                                            Post review
+                                        </button>
+                                    </Form>
+                                )}
+                            </Formik>
+                        </div>
+                    )}
                 </div>
 
                 {/* right column: sticky booking card */}
